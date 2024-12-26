@@ -1,0 +1,69 @@
+<!-- clanes.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <a href="/"><img src="/images/logo.png" alt="Ruby Server Logo"></a>
+    </header>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/jugadores">Top Jugadores</a>
+        <a href="/clanes" class="active">Top Clanes</a>
+        <a href="/actual">Top Actual</a>
+    </nav>
+    <div class="container">
+        <h1>Top 5 Clanes - All Time Ruby</h1>
+        <table class="stats-table">
+            <thead>
+                <tr>
+                    <th>Posición</th>
+                    <th>Nombre del Clan</th>
+                    <th>Actividad</th>
+                    
+                </tr>
+            </thead>
+            <thread>
+                <tbody>
+                    <tr>
+                        <td>1</td>
+                        <td>DM</td>
+                        <td>2006 - 2020</td> 
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>TH</td>
+                        <td>2006 - 2015</td> 
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>HK</td>
+                        <td>2017 - actualmente</td> 
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Nova</td>
+                        <td># - 2015</td> 
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>EOL</td>
+                        <td>2006 - 2011</td> 
+                    </tr>
+                    
+                </tbody>
+            </thread>
+        </table>
+    </div>
+    <footer>
+        <p>&copy; 2024 Ruby Server. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>
