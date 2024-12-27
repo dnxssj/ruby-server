@@ -29,6 +29,11 @@ app.get("/actual", (req, res) => {
     res.render("actual", { title: "Top Actual" });
 });
 
+app.get("/hemeroteca", (req, res) => {
+    res.render("hemeroteca", { title: "Hemeroteca" });
+});
+
+
 // Start the server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
