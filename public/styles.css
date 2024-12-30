@@ -183,93 +183,29 @@ nav a:hover, nav a.active {
 }
 
 /* Guestbook Estilo */
-.guestbook-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px 0;
-    background-color: #1c1c1c;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.guestbook-form textarea {
-    width: 100%;
-    min-height: 100px;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #7a0e0e;
-    border-radius: 5px;
-    background-color: #181818;
-    color: #fff;
-    font-family: Arial, sans-serif;
-}
-
-.guestbook-form input[type="text"] {
-    width: 100%;
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #7a0e0e;
-    border-radius: 5px;
-    background-color: #181818;
-    color: #fff;
-    font-family: Arial, sans-serif;
-}
-
+.guestbook-form input[type="text"],
+.guestbook-form textarea,
 .guestbook-form button {
-    background-color: #7a0e0e;
-    color: #fff;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
     border: none;
-    padding: 10px 20px;
     border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
+    background-color: #1c1c1c; /* Fondo oscuro */
+    color: #fff; /* Texto blanco */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Sombra */
     transition: background-color 0.3s;
 }
 
+.guestbook-form button {
+    background-color: #7a0e0e; /* Rojo rubí */
+    cursor: pointer;
+}
+
 .guestbook-form button:hover {
-    background-color: #a11d1d;
+    background-color: #ff4444; /* Color más claro al pasar el mouse */
 }
 
-.comments {
-    margin-top: 20px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.comments h2 {
-    color: #fff;
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.comment {
-    background-color: #1c1c1c;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    color: #fff;
-    font-size: 16px;
-    line-height: 1.5;
-}
-
-.comment p {
-    margin: 0;
-    word-break: break-word;
-}
-
-.comment strong {
-    color: #ff4444;
-}
-
-/* General Alignments */
-.guestbook-form, .comments {
-    text-align: left;
-}
 
 
 footer {

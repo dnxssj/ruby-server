@@ -1,7 +1,11 @@
 const express = require("express");
 const path = require("path");
+const bodyParser = require("body-parser");
 const fs = require("fs");
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 // Servir archivos estáticos desde la carpeta "public"
 app.use(express.static(path.join(__dirname, "public")));
@@ -36,25 +40,25 @@ app.get("/hemeroteca", (req, res) => {
 
 // Ruta para mostrar el guestbook
 app.get('/guestbook', (req, res) => {
-    const commentsPath = path.join(__dirname, 'comments.json');
-    let comments = [];
-    if (fs.existsSync(commentsPath)) {
-        comments = JSON.parse(fs.readFileSync(commentsPath, 'utf8'));
+    const messagesPath = path.join(__dirname, 'messages.json');
+    let messages = [];
+    if (fs.existsSync(messagesPath)) {
+        messages = JSON.parse(fs.readFileSync(messagesPath, 'utf8'));
     }
-    res.render('guestbook', { comments });
+    res.render('guestbook', { messages });
 });
 
 // Ruta para agregar un comentario
 app.post('/guestbook', (req, res) => {
-    const { comment, name } = req.body;
-    const newComment = { text: comment, name };
-    const commentsPath = path.join(__dirname, 'comments.json');
-    let comments = [];
-    if (fs.existsSync(commentsPath)) {
-        comments = JSON.parse(fs.readFileSync(commentsPath, 'utf8'));
+    const { message, name } = req.body;
+    const newMessage = { text: message, name };
+    const messagesPath = path.join(__dirname, 'messages.json');
+    let messages = [];
+    if (fs.existsSync(messagesPath)) {
+        messages = JSON.parse(fs.readFileSync(messagesPath, 'utf8'));
     }
-    comments.push(newComment);
-    fs.writeFileSync(commentsPath, JSON.stringify(comments, null, 2));
+    messages.push(newMessage);
+    fs.writeFileSync(messagesPath, JSON.stringify(messages, null, 2));
     res.redirect('/guestbook');
 });
 
