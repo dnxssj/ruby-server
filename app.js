@@ -1,5 +1,6 @@
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
 const app = express();
 
 // Servir archivos estáticos desde la carpeta "public"
@@ -31,6 +32,30 @@ app.get("/actual", (req, res) => {
 
 app.get("/hemeroteca", (req, res) => {
     res.render("hemeroteca", { title: "Hemeroteca" });
+});
+
+// Ruta para mostrar el guestbook
+app.get('/guestbook', (req, res) => {
+    const commentsPath = path.join(__dirname, 'comments.json');
+    let comments = [];
+    if (fs.existsSync(commentsPath)) {
+        comments = JSON.parse(fs.readFileSync(commentsPath, 'utf8'));
+    }
+    res.render('guestbook', { comments });
+});
+
+// Ruta para agregar un comentario
+app.post('/guestbook', (req, res) => {
+    const { comment, name } = req.body;
+    const newComment = { text: comment, name };
+    const commentsPath = path.join(__dirname, 'comments.json');
+    let comments = [];
+    if (fs.existsSync(commentsPath)) {
+        comments = JSON.parse(fs.readFileSync(commentsPath, 'utf8'));
+    }
+    comments.push(newComment);
+    fs.writeFileSync(commentsPath, JSON.stringify(comments, null, 2));
+    res.redirect('/guestbook');
 });
 
 

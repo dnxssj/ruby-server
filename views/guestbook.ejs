@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guestbook</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <header>
+        <img src="/images/logo.png" alt="Ruby Server Logo">
+    </header>
+    <nav>
+        <a href="/">Inicio</a>
+        <a href="/jugadores">Top All Time</a>
+        <a href="/clanes">Clanes</a>
+        <a href="/actual">Top Actual</a>
+        <a href="/hemeroteca">Hemeroteca</a>
+        <a href="/guestbook" class="actual">Guestbook</a>
+    </nav>
+    <div class="container">
+        <h1>Guestbook</h1>
+        <form action="/guestbook" method="POST" class="guestbook-form">
+            <textarea name="comment" placeholder="Escribe tu comentario aquí..." required></textarea>
+            <input type="text" name="name" placeholder="Tu nombre">
+            <button type="submit">Enviar</button>
+        </form>
+        <div class="comments">
+            <h2>Comentarios previos</h2>
+            <% comments.forEach(comment => { %>
+                <div class="comment">
+                    <p><strong><%= comment.name || "Anonymous" %>:</strong> <%= comment.text %></p>
+                </div>
+            <% }) %>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2024 Ruby Server. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="/js/script.js"></script>
+</body>
+</html>
