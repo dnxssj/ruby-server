@@ -3,6 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -65,7 +66,7 @@ app.post('/guestbook', (req, res) => {
         return res.status(403).send("No se puede identificar al usuario.");
     }
 
-    const newMessage = { text: message, name };
+    const newMessage = { id: uuidv4(), text: message, name, userId };
     const messagesPath = path.join('/tmp', 'messages.json');
     let messages = [];
     if (fs.existsSync(messagesPath)) {
