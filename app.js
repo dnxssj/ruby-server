@@ -49,6 +49,12 @@ app.get('/guestbook', (req, res) => {
         messages = JSON.parse(fs.readFileSync(messagesPath, 'utf8'));
     }
 
+    // Renderizamos la vista y pasamos las cookies y los mensajes
+    res.render('guestbook', { 
+        cookies: req.cookies, 
+        messages: messages 
+    });
+
     // Generar un identificador único para el usuario
     if (!req.cookies.userId) {
         res.cookie("userId", uuidv4(), { httpOnly: true, maxAge: 365 * 24 * 60 * 60 * 1000 }); // 1 año
