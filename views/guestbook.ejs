@@ -29,7 +29,7 @@
         <div class="messages">
             <h2>Comentarios previos</h2>
             <% messages.forEach(message => { %>
-                <div class="messages">
+                <div class="comment">
                     <p><strong><%= message.name || "Anonymous" %>:</strong> <%= message.text %></p>
                 </div>
             <% }) %>
@@ -38,7 +38,5 @@
     <footer>
         <p>&copy; 2024 Ruby Server. Todos los derechos reservados.</p>
     </footer>
-
-    <script src="/js/script.js"></script>
 </body>
 </html>

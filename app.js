@@ -40,7 +40,7 @@ app.get("/hemeroteca", (req, res) => {
 
 // Ruta para mostrar el guestbook
 app.get('/guestbook', (req, res) => {
-    const messagesPath = path.join(__dirname, 'messages.json');
+    const messagesPath = path.join('/tmp', 'messages.json');
     let messages = [];
     if (fs.existsSync(messagesPath)) {
         messages = JSON.parse(fs.readFileSync(messagesPath, 'utf8'));
@@ -52,7 +52,7 @@ app.get('/guestbook', (req, res) => {
 app.post('/guestbook', (req, res) => {
     const { message, name } = req.body;
     const newMessage = { text: message, name };
-    const messagesPath = path.join(__dirname, 'messages.json');
+    const messagesPath = path.join('/tmp', 'messages.json');
     let messages = [];
     if (fs.existsSync(messagesPath)) {
         messages = JSON.parse(fs.readFileSync(messagesPath, 'utf8'));
@@ -61,7 +61,6 @@ app.post('/guestbook', (req, res) => {
     fs.writeFileSync(messagesPath, JSON.stringify(messages, null, 2));
     res.redirect('/guestbook');
 });
-
 
 // Start the server
 const PORT = process.env.PORT || 3000;
