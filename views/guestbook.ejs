@@ -9,7 +9,7 @@
 </head>
 <body>
     <header>
-        <img src="/images/logo.png" alt="Ruby Server Logo">
+        <a href="/"><img src="/images/logo.png" alt="Ruby Server Logo"></a>
     </header>
     <nav>
         <a href="/">Inicio</a>
@@ -31,6 +31,15 @@
             <% messages.forEach(message => { %>
                 <div class="comment">
                     <p><strong><%= message.name || "Anonymous" %>:</strong> <%= message.text %></p>
+                    <% if (message.userId === cookies.userId) { %>
+                        <form action="/guestbook/delete/<%= message.id %>" method="POST" style="display:inline;">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                        <form action="/guestbook/edit/<%= message.id %>" method="POST" style="display:inline;">
+                            <input type="text" name="message" placeholder="Editar comentario" required>
+                            <button type="submit">Actualizar</button>
+                        </form>
+                    <% } %>
                 </div>
             <% }) %>
         </div>
