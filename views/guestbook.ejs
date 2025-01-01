@@ -31,7 +31,7 @@
             <% messages.forEach(message => { %>
                 <div class="comment">
                     <p><strong><%= message.name || "Anonymous" %>:</strong> <%= message.text %></p>
-                    <% if (message.userId === cookies.userId) { %>
+                    <% if (cookies && message.userId === cookies.userId) { %>
                         <form action="/guestbook/delete/<%= message.id %>" method="POST" style="display:inline;">
                             <button type="submit">Eliminar</button>
                         </form>
@@ -42,7 +42,7 @@
                     <% } %>
                 </div>
             <% }) %>
-        </div>
+        </div>        
     </div>
     <footer>
         <p>&copy; 2024 Ruby Server. Todos los derechos reservados.</p>
