@@ -206,6 +206,57 @@ nav a:hover, nav a.active {
     background-color: #ff4444; /* Color más claro al pasar el mouse */
 }
 
+/* Botones para eliminar y editar */
+.comment form {
+    display: inline-block;
+    margin: 5px 0;
+}
+
+.comment button {
+    background-color: #7a0e0e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-right: 10px;
+}
+
+.comment button:hover {
+    background-color: #a11d1d;
+    transform: scale(1.05);
+}
+
+/* Input de edición */
+.comment input[type="text"] {
+    width: calc(100% - 120px);
+    margin-right: 10px;
+    padding: 8px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 14px;
+}
+
+/* Botón de confirmación de edición */
+.comment button.save-edit {
+    background-color: #4CAF50; /* Verde para diferenciar la confirmación */
+    color: #fff;
+}
+
+.comment button.save-edit:hover {
+    background-color: #45a049;
+}
+
+/* Resaltar la edición activa */
+.comment.editing {
+    border: 2px solid #4CAF50;
+    box-shadow: 0 0 15px rgba(72, 239, 128, 0.8);
+}
+
 footer {
     text-align: center;
     padding: 10px;
