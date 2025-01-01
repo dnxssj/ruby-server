@@ -16,7 +16,6 @@ header {
 header img {
     max-width: 100px;
     transform: scale(2.5); /* Ajusta el factor para cambiar el tamaño visualmente */
-    
 }
 
 nav {
@@ -24,12 +23,13 @@ nav {
     justify-content: center;
     background: #333;
     padding: 10px 0;
+    flex-wrap: wrap; /* Permite que los enlaces se ajusten en pantallas pequeñas */
 }
 
 nav a {
     color: #f2f2f2;
     text-decoration: none;
-    margin: 0 15px;
+    margin: 5px 10px;
     font-size: 18px;
     transition: color 0.3s;
 }
@@ -206,12 +206,44 @@ nav a:hover, nav a.active {
     background-color: #ff4444; /* Color más claro al pasar el mouse */
 }
 
-
-
 footer {
     text-align: center;
     padding: 10px;
     background: #333;
     color: #aaa;
     margin-top: 20px;
+}
+
+/* Responsivo para móviles */
+@media (max-width: 768px) {
+    nav {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    nav a {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+
+    .video-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    textarea, input, button {
+        font-size: 14px;
+    }
+}
+
+/* Responsivo para tablets */
+@media (min-width: 768px) and (max-width: 1024px) {
+    nav a {
+        font-size: 16px;
+        padding: 8px 15px;
+    }
+
+    .video-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
