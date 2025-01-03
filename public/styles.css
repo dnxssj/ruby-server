@@ -273,27 +273,39 @@ nav {
 }
 
 /* Botones para eliminar y editar */
-.comment form {
-    display: inline-block;
-    margin: 5px 0;
+.comment-form {
+    max-width: 800px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.comment button {
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    background-color: #2a2a2a;
+    color: #fff;
+    resize: none;
+}
+
+.comment-form button {
+    align-self: flex-end;
     background-color: #7a0e0e;
     color: #fff;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    padding: 8px 15px;
     cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s, transform 0.2s;
-    margin-right: 10px;
+    transition: background-color 0.3s ease;
 }
 
-.comment button:hover {
+.comment-form button:hover {
     background-color: #a11d1d;
-    transform: scale(1.05);
 }
+
 
 /* Input de edición */
 .comment input[type="text"] {
