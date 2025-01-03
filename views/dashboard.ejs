@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Dashboard</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <header>
+        <a href="/"><img src="/images/logo.png" alt="Ruby Server Logo"></a>
+    </header>
+    <nav>
+        <div class="nav-container">
+            <ul class="main-nav">
+                <li><a href="/" class="active">Inicio</a></li>
+                <li><a href="/jugadores">Top All Time</a></li>
+                <li><a href="/clanes">Clanes</a></li>
+                <li><a href="/actual">Top Actual</a></li>
+                <li><a href="/guestbook">Guestbook</a></li>
+                <li><a href="/hemeroteca">Hemeroteca</a></li>
+            </ul>
+            <ul class="user-nav">
+                <% if (!user) { %> <!-- Si no hay un usuario autenticado -->
+                    <li><a href="/register">Registrar</a></li>
+                    <li><a href="/login">Iniciar sesión</a></li>
+                <% } else { %> <!-- Si hay un usuario autenticado -->
+                    <li><a href="/dashboard">Mi Dashboard</a></li>
+                    <li>
+                        <form action="/logout" method="POST" style="display: inline;">
+                            <button type="submit" class="logout-btn">Cerrar sesión</button>
+                        </form>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>
+    <div class="dashboard-container">
+        <h1>Mi Dashboard</h1>
+        <img src="<%= user.profilePicture %>" alt="Foto de perfil" class="profile-picture-large">
+        <form action="/dashboard" method="POST" enctype="multipart/form-data" class="dashboard-form">
+            <textarea name="bio" rows="3" placeholder="Escribe algo sobre ti..."><%= user.bio %></textarea>
+            <label for="profilePicture">Sube tu foto de perfil:</label>
+            <input type="file" id="profilePicture" name="profilePicture">
+            <button type="submit">Actualizar perfil</button>
+        </form>
+    </div>
+    
+</body>
+</html>

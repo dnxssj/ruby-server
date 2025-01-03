@@ -13,15 +13,34 @@
         <a href="/"><img src="/images/logo.png" alt="Ruby Server Logo"></a>
     </header>
     <nav>
-        <a href="/" class="active">Inicio</a>
-        <a href="/jugadores">Top All Time</a>
-        <a href="/clanes">Clanes</a>
-        <a href="/actual">Top Actual</a>
-        <a href="/hemeroteca">Hemeroteca</a>
-        <a href="/guestbook">Guestbook</a>
+        <div class="nav-container">
+            <ul class="main-nav">
+                <li><a href="/" class="active">Inicio</a></li>
+                <li><a href="/jugadores">Top All Time</a></li>
+                <li><a href="/clanes">Clanes</a></li>
+                <li><a href="/actual">Top Actual</a></li>
+                <li><a href="/guestbook">Guestbook</a></li>
+                <li><a href="/hemeroteca">Hemeroteca</a></li>
+            </ul>
+            <ul class="user-nav">
+                <% if (!user) { %> <!-- Si no hay un usuario autenticado -->
+                    <li><a href="/register">Registrar</a></li>
+                    <li><a href="/login">Iniciar sesión</a></li>
+                <% } else { %> <!-- Si hay un usuario autenticado -->
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li>
+                        <form action="/logout" method="POST" style="display: inline;">
+                            <button type="submit" class="logout-btn">Cerrar sesión</button>
+                        </form>
+                    </li>
+                <% } %>
+            </ul>
+            
+        </div>
     </nav>
+    
     <div class="container">
-        <h1>Bienvenidos al servidor Ruby</h1>
+        <center><h1>Bienvenidos al servidor Ruby</h1></center>
         <p>Esta página contiene los rankings oficiales de los mejores jugadores y clanes del servidor Ruby de Sherwood Dungeon.</p>
     </div>
     <footer>

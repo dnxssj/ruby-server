@@ -13,13 +13,31 @@
         <a href="/"><img src="/images/logo.png" alt="Ruby Server Logo"></a>
     </header>
     <nav>
-        <a href="/">Inicio</a>
-        <a href="/jugadores" class="active">Top All Time</a>
-        <a href="/clanes">Clanes</a>
-        <a href="/actual">Top Actual</a>
-        <a href="/hemeroteca">Hemeroteca</a>
-        <a href="/guestbook">Guestbook</a>
+        <div class="nav-container">
+            <ul class="main-nav">
+                <li><a href="/" class="active">Inicio</a></li>
+                <li><a href="/jugadores">Top All Time</a></li>
+                <li><a href="/clanes">Clanes</a></li>
+                <li><a href="/actual">Top Actual</a></li>
+                <li><a href="/guestbook">Guestbook</a></li>
+                <li><a href="/hemeroteca">Hemeroteca</a></li>
+            </ul>
+            <ul class="user-nav">
+                <% if (!user) { %> <!-- Si no hay un usuario autenticado -->
+                    <li><a href="/register">Registrar</a></li>
+                    <li><a href="/login">Iniciar sesión</a></li>
+                <% } else { %> <!-- Si hay un usuario autenticado -->
+                    <li><a href="/dashboard">Mi Dashboard</a></li>
+                    <li>
+                        <form action="/logout" method="POST" style="display: inline;">
+                            <button type="submit" class="logout-btn">Cerrar sesión</button>
+                        </form>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
     </nav>
+        
     <div class="container">
         <h1>Top 10 Jugadores - All Time Ruby</h1>
         <table class="stats-table">
