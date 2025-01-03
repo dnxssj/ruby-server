@@ -12,37 +12,59 @@
         <a href="/"><img src="/images/logo.png" alt="Ruby Server Logo"></a>
     </header>
     <nav>
-        <a href="/">Inicio</a>
-        <a href="/jugadores">Top All Time</a>
-        <a href="/clanes">Clanes</a>
-        <a href="/actual">Top Actual</a>
-        <a href="/hemeroteca">Hemeroteca</a>
-        <a href="/guestbook" class="actual">Guestbook</a>
+        <div class="nav-container">
+            <ul class="main-nav">
+                <li><a href="/" class="active">Inicio</a></li>
+                <li><a href="/jugadores">Top All Time</a></li>
+                <li><a href="/clanes">Clanes</a></li>
+                <li><a href="/actual">Top Actual</a></li>
+                <li><a href="/guestbook">Guestbook</a></li>
+                <li><a href="/hemeroteca">Hemeroteca</a></li>
+            </ul>
+            <ul class="user-nav">
+                <% if (!user) { %> <!-- Si no hay un usuario autenticado -->
+                    <li><a href="/register">Registrar</a></li>
+                    <li><a href="/login">Iniciar sesión</a></li>
+                <% } else { %> <!-- Si hay un usuario autenticado -->
+                    <li><a href="/dashboard">Mi Dashboard</a></li>
+                    <li>
+                        <form action="/logout" method="POST" style="display: inline;">
+                            <button type="submit" class="logout-btn">Cerrar sesión</button>
+                        </form>
+                    </li>
+                <% } %>
+            </ul>
+            
+        </div>
     </nav>
     <div class="container">
-        <h1>Guestbook</h1>
-        <form action="/guestbook" method="POST" class="guestbook-form">
-            <textarea name="message" placeholder="Escribe tu comentario aquí..." required></textarea>
-            <input type="text" name="name" placeholder="Tu nombre" required>
-            <button type="submit">Enviar</button>
+        <center><h1>Guestbook</h1></center>
+        <form action="/guestbook" method="POST" class="comment-form">
+            <input type="hidden" name="name" value="<%= user?.username || 'Anonymous' %>">
+            <textarea name="message" rows="3" placeholder="Escribe tu comentario aquí..." required></textarea>
+            <button type="submit">Publicar</button>
         </form>
+        
+        
+        
         <div class="messages">
-            <h2>Comentarios previos</h2>
             <% messages.forEach(message => { %>
                 <div class="comment">
-                    <p><strong><%= message.name || "Anonymous" %>:</strong> <%= message.text %></p>
-                    <% if (cookies && message.userId === cookies.userId) { %>
-                        <form action="/guestbook/delete/<%= message.id %>" method="POST" style="display:inline;">
-                            <button type="submit">Eliminar</button>
-                        </form>
-                        <form action="/guestbook/edit/<%= message.id %>" method="POST" style="display:inline;">
-                            <input type="text" name="message" placeholder="Editar comentario" required>
-                            <button type="submit">Actualizar</button>
-                        </form>
+                    <% if (message.author) { %>
+                        <img src="<%= message.author.profilePicture %>" alt="Foto de perfil" class="profile-picture">
+                        <div class="comment-text">
+                            <p><strong><%= message.author.username %>:</strong> <%= message.text %></p>
+                        </div>
+                    <% } else { %>
+                        <div class="comment-text">
+                            <p><strong>Usuario desconocido:</strong> <%= message.text %></p>
+                        </div>
                     <% } %>
                 </div>
             <% }) %>
-        </div>        
+        </div>
+        
+                
     </div>
     <footer>
         <p>&copy; 2024 Ruby Server. Todos los derechos reservados.</p>
