@@ -13,12 +13,29 @@
         <a href="/"><img src="/images/logo.png" alt="Ruby Server Logo"></a>
     </header>
     <nav>
-        <a href="/">Inicio</a>
-        <a href="/jugadores">Top All Time</a>
-        <a href="/clanes">Clanes</a>
-        <a href="/actual" class="active">Top Actual</a>
-        <a href="/hemeroteca">Hemeroteca</a>
-        <a href="/guestbook">Guestbook</a>
+        <div class="nav-container">
+            <ul class="main-nav">
+                <li><a href="/" class="active">Inicio</a></li>
+                <li><a href="/jugadores">Top All Time</a></li>
+                <li><a href="/clanes">Clanes</a></li>
+                <li><a href="/actual">Top Actual</a></li>
+                <li><a href="/guestbook">Guestbook</a></li>
+                <li><a href="/hemeroteca">Hemeroteca</a></li>
+            </ul>
+            <ul class="user-nav">
+                <% if (!user) { %> <!-- Si no hay un usuario autenticado -->
+                    <li><a href="/register">Registrar</a></li>
+                    <li><a href="/login">Iniciar sesión</a></li>
+                <% } else { %> <!-- Si hay un usuario autenticado -->
+                    <li><a href="/dashboard">Mi Dashboard</a></li>
+                    <li>
+                        <form action="/logout" method="POST" style="display: inline;">
+                            <button type="submit" class="logout-btn">Cerrar sesión</button>
+                        </form>
+                    </li>
+                <% } %>
+            </ul>
+        </div>
     </nav>
     <div class="container">
         <h1>Top 5 Jugadores Actuales - 2024</h1>
@@ -27,34 +44,34 @@
                 <tr>
                     <th>Posición</th>
                     <th>Nombre</th>
-                    <th>Clan | Grupo</th>
+                    <th>Clan</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>1</td>
                     <td>Giova</td>
-                    <td>HK | MVP </td>
+                    <td>HK</td>
                 </tr>
                 <tr>
                     <td>2</td>
                     <td>Cloud</td>
-                    <td>HK | MVP</td>
+                    <td>HK</td>
                 </tr>
                 <tr>
                     <td>3</td>
                     <td>Beckhxm</td>
-                    <td>HK | MVP</td>
+                    <td>HK</td>
                 </tr>
                 <tr>
                     <td>4</td>
                     <td>Gogeta</td>
-                    <td>HK | MVP</td>
+                    <td>HK</td>
                 </tr>
                 <tr>
                     <td>5</td>
                     <td>Glein</td>
-                    <td>CO | -</td>
+                    <td>CO</td>
                 </tr>
             </tbody>
         </table>
