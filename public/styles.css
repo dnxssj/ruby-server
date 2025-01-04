@@ -1,4 +1,12 @@
 /* styles.css */
+@media (max-width: 768px) {
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -137,6 +145,12 @@ nav {
     background: #555;
     transform: scale(1.01);
     transition: transform 0.2s, background 0.2s;
+}
+
+.stats-table th:first-child,
+.stats-table td:first-child {
+    width: 50px; /* Reducir el ancho de la columna de posición */
+    text-align: center;
 }
 
 /* Hemeroteca */
