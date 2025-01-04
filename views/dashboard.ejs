@@ -34,6 +34,13 @@
             </ul>
         </div>
     </nav>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <p>Nota: Actualmente, la funcionalidad de subir imágenes de perfil no está disponible.</p>
+            <button id="close-popup">Cerrar</button>
+        </div>
+    </div>
+    
     <div class="dashboard-container">
         <h1>Mi Dashboard</h1>
         <img src="<%= user.profilePicture %>" alt="Foto de perfil" class="profile-picture-large">
@@ -44,6 +51,23 @@
             <button type="submit">Actualizar perfil</button>
         </form>
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const popup = document.getElementById("popup");
+            const closeButton = document.getElementById("close-popup");
+    
+            popup.style.visibility = "visible";
+            popup.style.opacity = "1";
+    
+            closeButton.addEventListener("click", () => {
+                popup.style.visibility = "hidden";
+                popup.style.opacity = "0";
+            });
+        });
+    </script>
+    
+    
     
 </body>
 </html>
