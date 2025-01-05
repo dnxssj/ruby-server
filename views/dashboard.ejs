@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title><%= user.username %> - Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="/images/ruby.ico">
     <link rel="stylesheet" href="/styles.css?v=4">
 </head>
 <body>
@@ -36,7 +37,7 @@
     </nav>
     <div id="popup" class="popup">
         <div class="popup-content">
-            <p>Nota: Actualmente, la funcionalidad de subir imágenes de perfil no está disponible.</p>
+            <p>Nota: Actualmente, la funcionalidad de subir imágenes de perfil no está disponible, pero puedes elegir una imagen predeterminada.</p>
             <button id="close-popup">Cerrar</button>
         </div>
     </div>
@@ -49,7 +50,7 @@
             
             <p>Selecciona una imagen de perfil:</p>
             <div class="profile-options">
-                <% const profileImages = ["/images/profile-options/profile1.png", "/images/profile-options/profile2.png", "/images/profile-options/profile3.png", "/images/profile-options/profile4.png"]; %>
+                <% const profileImages = ["/images/profile-options/profile1.png", "/images/profile-options/profile2.png", "/images/profile-options/profile3.png", "/images/profile-options/profile4.png", "/images/profile-options/profile5.png", "/images/profile-options/profile6.png", "/images/profile-options/profile9.png", "/images/profile-options/profile11.png"]; %>
                 <% profileImages.forEach((img) => { %>
                     <label class="profile-option">
                         <input type="radio" name="profilePicture" value="<%= img %>" <%= user.profilePicture === img ? "checked" : "" %> />
@@ -83,7 +84,7 @@
         });
     </script>
     
-    
+    <script src="/js/script.js"></script>
     
 </body>
 </html>
