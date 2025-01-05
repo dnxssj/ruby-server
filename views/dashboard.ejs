@@ -46,7 +46,7 @@
         <h1>Bienvenido, <a href="/user/<%= user._id %>"><%= user.username %></a>!</h1>
         <form action="/dashboard" method="POST">
             <label for="bio">Actualizar biografía:</label>
-            <textarea name="bio" rows="3" placeholder="Escribe tu biografía..."><%= user.bio %></textarea>
+            <p><textarea name="bio" rows="3" placeholder="Escribe tu biografía..."><%= user.bio %></textarea></p>
             
             <p>Selecciona una imagen de perfil:</p>
             <div class="profile-options">
