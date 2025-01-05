@@ -232,20 +232,28 @@ app.post("/guestbook/delete/:id", requireAuth, async (req, res) => {
             return res.status(404).send("Comentario no encontrado.");
         }
 
-        const user = await User.findById(req.session.userId);
+        const user = res.locals.user; // Usamos res.locals.user aquí
 
-        // Permitir que el autor, el admin y el mod puedan borrar
-        if (comment.author.toString() !== req.session.userId && !["admin", "mod"].includes(user.role)) {
+        // Asegúrate de que comment.author esté presente
+        if (!comment.author) {
+            return res.status(500).send("El comentario no tiene autor.");
+        }
+
+        // Verificación de permiso para eliminar
+        if (comment.author._id.toString() !== user._id.toString() && !["admin", "mod"].includes(user.role)) {
             return res.status(403).send("No tienes permiso para eliminar este comentario.");
         }
 
-        await comment.remove();
-        res.redirect("/guestbook");
+        const result = await comment.deleteOne();  // Eliminar el comentario
+        console.log(result);  // Esto debería mostrar el resultado de la eliminación
+        res.redirect("/guestbook");  // Redirigir a la página del guestbook después de la eliminación
     } catch (error) {
         console.error("Error al eliminar comentario:", error);
         res.status(500).send("Error al eliminar comentario.");
     }
 });
+
+
 
 // Dashboard
 app.post("/dashboard", requireAuth, async (req, res) => {
@@ -300,7 +308,7 @@ app.get("/guestbook", requireAuth, async (req, res) => {
         const messages = await Comment.find()
             .sort({ date: -1 })
             .populate("author", "username profilePicture"); // Incluye los campos necesarios
-        res.render("guestbook", { messages });
+        res.render("guestbook", { user, messages });
     } catch (error) {
         console.error("Error al cargar comentarios:", error);
         res.status(500).send("Error al cargar comentarios.");
