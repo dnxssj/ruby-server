@@ -6,6 +6,10 @@
     <title>Guestbook</title>
     <link rel="icon" type="image/x-icon" href="/images/ruby.ico">
     <link rel="stylesheet" href="/styles.css?v=5">
+<!-- Agrega los enlaces al CSS y JS de Quill en el head -->
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
 </head>
 <body>
     <header>
@@ -40,7 +44,9 @@
         <center><h1>Guestbook</h1></center>
         <form action="/guestbook" method="POST" class="comment-form">
             <input type="hidden" name="name" value="<%= user?.username || 'Anonymous' %>">
-            <textarea name="message" rows="3" placeholder="Escribe tu comentario aquí..." required></textarea>
+            
+            <div id="editor-container"></div>
+
             <button type="submit">Publicar</button>
         </form>
         
@@ -52,16 +58,21 @@
                     <% if (message.author) { %>
                         <img src="<%= message.author.profilePicture %>" alt="Foto de perfil" class="profile-picture">
                         <div class="comment-text">
-                            <p><strong><a href="/user/<%= message.author._id %>" class="user-link"><%= message.author.username %></a></strong>:
-                                <%= message.text %>
-                            </p>
-                            
+                            <p><strong><a href="/user/<%= message.author._id %>" class="user-link"><%= message.author.username %></a></strong></p>
+                            <div class="comment-body">
+                                <%- message.text %> <!-- Renderiza el texto con HTML -->
+                            </div>
+                         
                             <% if (message.author._id.toString() === user._id.toString() || user.role === "admin") { %>
-                                <form action="/guestbook/edit/<%= message._id %>" method="POST" style="display:inline;">
-                                    <input type="text" name="message" placeholder="Editar comentario" required>
-                                    <button type="submit">Editar</button>
-                                </form>
+                                <div class="edit-container" id="edit-container-<%= message._id %>" style="display:none;">
+                                    <form action="/guestbook/edit/<%= message._id %>" method="POST" style="display:inline;">
+                                        <input type="text" name="message" value="<%= message.text %>" placeholder="Editar comentario" required>
+                                        <button type="submit" class="save-button" style="display:none;">Guardar</button>
+                                    </form>
+                                </div>
+                                <button class="edit-button" id="edit-button-<%= message._id %>" onclick="toggleEditForm('<%= message._id %>')">Editar</button>
                             <% } %>
+                            
                         
                             <% if (message.author._id.toString() === user._id.toString() || ["admin", "mod"].includes(user.role)) { %>
                                 <form action="/guestbook/delete/<%= message._id %>" method="POST" style="display:inline;">
@@ -81,6 +92,57 @@
         
                 
     </div>
+
+    <script>
+        // Inicializamos Quill en el contenedor con id 'editor-container'
+        var quill = new Quill('#editor-container', {
+            theme: 'snow', // Tema de Quill
+            modules: {
+                toolbar: [
+                    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'align': [] }],
+                    ['bold', 'italic', 'underline'],
+                    ['link'],
+                    ['blockquote'],
+                    [{ 'script': 'sub'}, { 'script': 'super' }],
+                    [{ 'indent': '-1'}, { 'indent': '+1' }],
+                    [{ 'direction': 'rtl' }],
+                    ['clean'] // Botón para limpiar el formato
+                ]
+            }
+        });
+    
+        // Cuando el formulario se envía, obtenemos el contenido de Quill
+        const form = document.querySelector('.comment-form');
+        form.addEventListener('submit', function (e) {
+            const message = quill.root.innerHTML; // Obtener el HTML del contenido
+            const messageInput = document.createElement('input');
+            messageInput.type = 'hidden';
+            messageInput.name = 'message';
+            messageInput.value = message; // Asignamos el contenido a un campo oculto
+            form.appendChild(messageInput); // Añadimos el input al formulario
+        });
+    </script>
+    <script>
+        function toggleEditForm(messageId) {
+            const editContainer = document.getElementById('edit-container-' + messageId);
+            const editButton = document.getElementById('edit-button-' + messageId);
+            const saveButton = editContainer.querySelector('.save-button');
+
+            // Si el contenedor de edición está oculto, lo mostramos y cambiamos el botón a "Guardar"
+            if (editContainer.style.display === "none") {
+                editContainer.style.display = "block";
+                editButton.style.display = "none"; // Oculta el botón "Editar"
+                saveButton.style.display = "inline-block"; // Muestra el botón "Guardar"
+            } else {
+                editContainer.style.display = "none";
+                editButton.style.display = "inline-block"; // Muestra el botón "Editar"
+                saveButton.style.display = "none"; // Oculta el botón "Guardar"
+            }
+        }
+    </script>
+
     <footer>
         <p>&copy; 2024 Ruby Server. Todos los derechos reservados.</p>
     </footer>

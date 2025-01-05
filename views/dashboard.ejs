@@ -5,6 +5,7 @@
     <title><%= user.username %> - Dashboard</title>
     <link rel="icon" type="image/x-icon" href="/images/ruby.ico">
     <link rel="stylesheet" href="/styles.css?v=5">
+    
 </head>
 <body>
     <header>
@@ -42,7 +43,7 @@
     </div>
     
     <div class="centered-container">
-        <h1>Bienvenido, <%= user.username %>!</h1>
+        <h1>Bienvenido, <a href="/user/<%= user._id %>"><%= user.username %></a>!</h1>
         <form action="/dashboard" method="POST">
             <label for="bio">Actualizar biografía:</label>
             <textarea name="bio" rows="3" placeholder="Escribe tu biografía..."><%= user.bio %></textarea>

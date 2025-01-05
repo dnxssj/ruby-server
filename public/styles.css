@@ -402,32 +402,63 @@ nav {
 
 
 /* Input de edición */
+/* Estilos para el campo de texto de edición */
 .comment input[type="text"] {
     width: calc(100% - 120px);
     margin-right: 10px;
-    padding: 8px;
-    border: 1px solid #444;
+    padding: 10px;
+    border: 2px solid #444;
     border-radius: 5px;
     background-color: #2a2a2a;
     color: #fff;
     font-size: 14px;
 }
 
-/* Botón de confirmación de edición */
-.comment button.save-edit {
-    background-color: #4CAF50; /* Verde para diferenciar la confirmación */
+/* Estilos para el botón Editar */
+.edit-button {
+    align-self: flex-end;
+    background-color: #7a0e0e;
     color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
-.comment button.save-edit:hover {
-    background-color: #45a049;
+.edit-button:hover {
+    background-color: #9e1e1e; /* Rojo oscuro */
 }
 
-/* Resaltar la edición activa */
-.comment.editing {
-    border: 2px solid #4CAF50;
-    box-shadow: 0 0 15px rgba(72, 239, 128, 0.8);
+/* Estilos para el botón Guardar */
+.save-button {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
 }
+
+.save-button:hover {
+    background-color: #45a049; /* Verde oscuro */
+}
+
+form button {
+    align-self: flex-end;
+    background-color: #7a0e0e;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+form button:hover {
+    background-color: #a11d1d;
+}
+
+
 
 /* Contenedor principal */
 .form-container {
@@ -450,28 +481,53 @@ nav {
 }
 
 /* Formulario */
-form {
-    width: 100%;
-    max-width: 400px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* Estilos generales para el editor Quill */
+#editor-container {
+    height: 200px;  /* Ajusta la altura del editor */
+    border: 1px solid #ccc; /* Borde gris suave */
+    padding: 10px;
+    border-radius: 8px; /* Bordes redondeados */
+    background-color: #1c1c1c; /* Fondo suave */
+    font-family: 'Arial', sans-serif; /* Fuente sencilla */
+    font-size: 14px; /* Tamaño de fuente estándar */
+    margin-bottom: 15px; /* Separación con otros elementos */
 }
 
-form button {
-    background: #7a0e0e;
-    color: #fff;
-    font-size: 16px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
+/* Mejorar la visibilidad del borde cuando el editor está enfocado */
+#editor-container:focus {
+    border-color: #007bff; /* Borde azul al enfocar */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra azul clara */
+}
+
+/* Personalización de la barra de herramientas de Quill */
+.ql-toolbar {
+    background-color: #1c1c1c; /* Fondo claro */
+    border: 1px solid #111111; /* Borde gris claro */
+    border-top-left-radius: 8px; /* Bordes redondeados */
+    border-top-right-radius: 8px; /* Bordes redondeados */
+    padding: 5px; /* Espaciado interno */
+}
+
+/* Personalización de los botones de la barra de herramientas */
+.ql-toolbar .ql-formats {
+    margin-right: 10px; /* Espacio entre los botones */
+}
+
+/* Mejorar los botones de la barra de herramientas */
+.ql-toolbar button {
+    background-color: #ffffff;
+    border: 1px solid #ccc; /* Borde gris */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 6px 12px;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s;
 }
 
-form button:hover {
-    background: #a11d1d;
+/* Efecto al pasar el cursor sobre los botones */
+.ql-toolbar button:hover {
+    background-color: #f0f0f0; /* Fondo suave al pasar el mouse */
 }
+
 
 /* Campos de entrada */
 form input {

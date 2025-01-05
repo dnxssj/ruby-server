@@ -9,6 +9,7 @@ const bcrypt = require("bcryptjs");
 const session = require("express-session");
 const MongoStore = require("connect-mongo");
 const multer = require("multer");
+const sanitizeHtml = require("sanitize-html");
 
 const app = express();
 
@@ -167,16 +168,27 @@ app.get("/guestbook", requireAuth, async (req, res) => {
 });
 
 app.post("/guestbook", requireAuth, async (req, res) => {
-    const { message } = req.body;
+    const { name, message } = req.body;
+
+    // Limpiar el mensaje (permitir HTML seguro)
+    const cleanMessage = sanitizeHtml(message, {
+        allowedTags: [ 'b', 'i', 'u', 'em', 'strong', 'a', 'p', 'br', 'ul', 'ol', 'li' ],
+        allowedAttributes: {
+            '*': ['class', 'style'],
+            'a': ['href', 'target']
+        }
+    });
+
+    const newComment = new Comment({
+        author: req.session.userId,
+        text: cleanMessage
+    });
+
     try {
-        const newComment = new Comment({
-            text: message,
-            author: req.session.userId
-        });
         await newComment.save();
         res.redirect("/guestbook");
     } catch (error) {
-        console.error("Error al guardar comentario:", error);
+        console.error("Error al guardar el comentario:", error);
         res.status(500).send("Error al guardar el comentario.");
     }
 });
@@ -257,21 +269,24 @@ app.post("/guestbook/delete/:id", requireAuth, async (req, res) => {
 
 // Dashboard
 app.post("/dashboard", requireAuth, async (req, res) => {
-    const { bio, profilePicture } = req.body;
     try {
-        // Actualiza solo el documento del usuario
-        const updates = { bio };
-        if (profilePicture) {
-            updates.profilePicture = profilePicture;
+        const user = await User.findById(req.session.userId);
+        if (req.body.bio) {
+            user.bio = req.body.bio;
         }
-        await User.findByIdAndUpdate(req.session.userId, updates);
+        if (req.body.profilePicture) {
+            user.profilePicture = req.body.profilePicture;
+        }
+        await user.save();
 
-        res.redirect("/dashboard?success=true");
+        // Después de guardar, redirigir a la misma página y pasar 'success' a la vista
+        res.render("dashboard", { user, success: true });
     } catch (error) {
-        console.error("Error al actualizar el perfil:", error);
-        res.status(500).send("Error al actualizar el perfil.");
+        console.error("Error al actualizar perfil:", error);
+        res.render("dashboard", { user, success: false });
     }
 });
+
 
 //Housekeeping
 app.post("/housekeeping/users/:id", requireAuth, async (req, res) => {
@@ -307,8 +322,19 @@ app.get("/guestbook", requireAuth, async (req, res) => {
     try {
         const messages = await Comment.find()
             .sort({ date: -1 })
-            .populate("author", "username profilePicture"); // Incluye los campos necesarios
-        res.render("guestbook", { user, messages });
+            .populate("author", "username profilePicture");
+
+        // Sanitizar los mensajes antes de pasarlos a la vista
+        messages.forEach(msg => {
+            msg.text = sanitizeHtml(msg.text, {
+                allowedTags: [ 'b', 'i', 'u', 'a', 'p', 'br' ], // Permitir solo etiquetas HTML seguras
+                allowedAttributes: {
+                    'a': ['href']
+                }
+            });
+        });
+
+        res.render("guestbook", { messages });
     } catch (error) {
         console.error("Error al cargar comentarios:", error);
         res.status(500).send("Error al cargar comentarios.");
