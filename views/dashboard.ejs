@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Mi Dashboard</title>
-    <link rel="stylesheet" href="/styles.css?v=3">
+    <title><%= user.username %> - Dashboard</title>
+    <link rel="stylesheet" href="/styles.css?v=4">
 </head>
 <body>
     <header>
@@ -41,16 +41,32 @@
         </div>
     </div>
     
-    <div class="dashboard-container">
-        <h1>Mi Dashboard</h1>
-        <img src="<%= user.profilePicture %>" alt="Foto de perfil" class="profile-picture-large">
-        <form action="/dashboard" method="POST" enctype="multipart/form-data" class="dashboard-form">
-            <textarea name="bio" rows="3" placeholder="Escribe algo sobre ti..."><%= user.bio %></textarea>
-            <label for="profilePicture">Sube tu foto de perfil:</label>
-            <input type="file" id="profilePicture" name="profilePicture">
-            <button type="submit">Actualizar perfil</button>
+    <div class="centered-container">
+        <h1>Bienvenido, <%= user.username %>!</h1>
+        <form action="/dashboard" method="POST">
+            <label for="bio">Actualizar biografía:</label>
+            <textarea name="bio" rows="3" placeholder="Escribe tu biografía..."><%= user.bio %></textarea>
+            
+            <p>Selecciona una imagen de perfil:</p>
+            <div class="profile-options">
+                <% const profileImages = ["/images/profile-options/profile1.png", "/images/profile-options/profile2.png", "/images/profile-options/profile3.png", "/images/profile-options/profile4.png"]; %>
+                <% profileImages.forEach((img) => { %>
+                    <label class="profile-option">
+                        <input type="radio" name="profilePicture" value="<%= img %>" <%= user.profilePicture === img ? "checked" : "" %> />
+                        <img src="<%= img %>" alt="Imagen de perfil" />
+                    </label>
+                <% }); %>
+            </div>
+            
+            <button type="submit">Guardar cambios</button>
         </form>
+
+        <% if (success) { %>
+            <p class="success-message">Cambios guardados con éxito</p>
+        <% } %>
     </div>
+    
+    
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {

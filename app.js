@@ -79,9 +79,10 @@ const User = mongoose.model("User", userSchema);
 const commentSchema = new mongoose.Schema({
     text: String,
     date: { type: Date, default: Date.now },
-    author: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
+    author: { type: mongoose.Schema.Types.ObjectId, ref: "User" } // Referencia al usuario
 });
 const Comment = mongoose.model("Comment", commentSchema);
+
 
 // Middleware de autenticación
 function requireAuth(req, res, next) {
@@ -211,20 +212,25 @@ app.post("/guestbook/delete/:id", requireAuth, async (req, res) => {
 });
 
 // Dashboard
-app.post("/dashboard", requireAuth, upload.single("profilePicture"), async (req, res) => {
-    const { bio } = req.body;
+app.post("/dashboard", requireAuth, async (req, res) => {
+    const { bio, profilePicture } = req.body;
     try {
+        // Actualiza solo el documento del usuario
         const updates = { bio };
-        if (req.file) {
-            updates.profilePicture = "/uploads/" + req.file.filename;
+        if (profilePicture) {
+            updates.profilePicture = profilePicture;
         }
         await User.findByIdAndUpdate(req.session.userId, updates);
-        res.redirect("/dashboard");
+
+        res.redirect("/dashboard?success=true");
     } catch (error) {
         console.error("Error al actualizar el perfil:", error);
         res.status(500).send("Error al actualizar el perfil.");
     }
 });
+
+
+
 
 // Rutas estáticas
 app.get("/", (req, res) => res.render("index", { title: "Inicio" }));
@@ -234,15 +240,27 @@ app.get("/actual", (req, res) => res.render("actual", { title: "Top Actual" }));
 app.get("/hemeroteca", (req, res) => res.render("hemeroteca", { title: "Hemeroteca" }));
 app.get("/register", (req, res) => res.render("register", { title: "Registro" }));
 app.get("/login", (req, res) => res.render("login", { title: "Login" }));
+app.get("/guestbook", requireAuth, async (req, res) => {
+    try {
+        const messages = await Comment.find()
+            .sort({ date: -1 })
+            .populate("author", "username profilePicture"); // Incluye los campos necesarios
+        res.render("guestbook", { messages });
+    } catch (error) {
+        console.error("Error al cargar comentarios:", error);
+        res.status(500).send("Error al cargar comentarios.");
+    }
+});
 app.get("/dashboard", requireAuth, async (req, res) => {
     try {
         const user = await User.findById(req.session.userId);
-        res.render("dashboard", { user });
+        res.render("dashboard", { user, success: false }); // success inicialmente es false
     } catch (error) {
         console.error("Error al cargar el dashboard:", error);
         res.status(500).send("Error al cargar el dashboard.");
     }
 });
+
 
 // Iniciar servidor
 const PORT = process.env.PORT || 3000;

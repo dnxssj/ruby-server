@@ -1,10 +1,38 @@
 /* styles.css */
+/* Nav adaptado a móviles */
 @media (max-width: 768px) {
-    table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
+    nav {
+        flex-direction: column; /* Cambia la dirección a vertical */
+        align-items: center;
     }
+
+    .main-nav,
+    .user-nav {
+        flex-direction: column; /* Elementos uno debajo de otro */
+        gap: 10px; /* Espaciado entre enlaces */
+        text-align: center;
+    }
+
+    .main-nav li,
+    .user-nav li {
+        margin: 5px 0;
+    }
+
+    .logout-btn {
+        align-self: center; /* Centrar botón de cierre de sesión */
+    }
+    
+    .actual-table th,
+    .actual-table td {
+            font-size: 12px; /* Reduce el tamaño de fuente */
+            padding: 4px 8px; /* Menor espacio en celdas */
+        }
+    
+    .actual-table th:first-child,
+    .actual-table td:first-child {
+            width: 30px; /* Más estrecha en móviles */
+    }
+     
 }
 
 body {
@@ -76,6 +104,7 @@ nav {
 
 .user-nav li a,
 .logout-btn {
+    font-size: 18px; /* Tamaño consistente con los enlaces */
     text-decoration: none;
     color: #fff;
     font-weight: bold;
@@ -126,10 +155,10 @@ nav {
     margin: 20px 0;
 }
 
-.stats-table th, .stats-table td {
-    text-align: left;
-    padding: 10px;
-    border: 1px solid #444;
+.stats-table th,
+.stats-table td {
+    padding: 8px 10px; /* Reduce el padding */
+    font-size: 16px; /* Ajusta el tamaño de la fuente */
 }
 
 .stats-table th {
@@ -149,9 +178,43 @@ nav {
 
 .stats-table th:first-child,
 .stats-table td:first-child {
-    width: 50px; /* Reducir el ancho de la columna de posición */
+    width: 50px; /* Ajusta el ancho de la columna de posiciones */
     text-align: center;
 }
+
+/* Estilo exclusivo para la tabla en actual.ejs */
+.actual-table {
+    width: auto; /* Ajusta el ancho total al contenido */
+    margin: 0 auto; /* Centra la tabla */
+    border-collapse: collapse; /* Combina bordes */
+}
+
+.actual-table th,
+.actual-table td {
+    padding: 6px 12px; /* Espaciado ajustado */
+    font-size: 18px; /* Tamaño de texto compacto */
+    text-align: left; /* Alineación estándar */
+    border: 1px solid #444; /* Bordes visibles */
+    white-space: nowrap; /* Evita que el texto se divida */
+}
+
+.actual-table th:first-child,
+.actual-table td:first-child {
+    width: 50px; /* Columna de posiciones más estrecha */
+    text-align: center; /* Centrar el contenido */
+}
+
+.actual-table th:nth-child(2),
+.actual-table td:nth-child(2) {
+    width: 200px; /* Ajustar ancho del nombre */
+}
+
+.actual-table th:nth-child(3),
+.actual-table td:nth-child(3) {
+    width: auto; /* Columna de clan se adapta dinámicamente */
+    text-align: center; /* Centrar el contenido */
+}
+
 
 /* Hemeroteca */
 .hemeroteca {
@@ -165,12 +228,14 @@ nav {
     margin-bottom: 20px;
 }
 
+/* Hemeroteca: cambiar a 3 columnas */
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr); /* Tres columnas */
     gap: 20px;
     justify-content: center;
 }
+
 
 .video-preview {
     background-color: #1c1c1c;
@@ -286,6 +351,8 @@ nav {
     background-color: #a11d1d; /* Color más claro al pasar el mouse */
 }
 
+
+
 /* Botones para eliminar y editar */
 .comment-form {
     max-width: 800px;
@@ -378,6 +445,21 @@ form {
     gap: 15px;
 }
 
+form button {
+    background: #7a0e0e;
+    color: #fff;
+    font-size: 16px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+form button:hover {
+    background: #a11d1d;
+}
+
 /* Campos de entrada */
 form input {
     width: 100%;
@@ -394,14 +476,56 @@ form input:focus {
     border-color: #7a0e0e; 
 }
 
-.dashboard-container {
+.centered-container {
     max-width: 800px;
     margin: 0 auto; /* Centra horizontalmente */
     padding: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     background-color: #2a2a2a;
     color: #fff;
+    align-items: center;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Estilo para las opciones de imágenes */
+.profile-options {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.profile-option {
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+
+.profile-option img {
+    width: 80px; /* Tamaño de las imágenes */
+    height: 80px;
+    border-radius: 50%; /* Hacerlas circulares */
+    border: 2px solid transparent;
+    transition: border 0.3s;
+}
+
+.profile-option input[type="radio"] {
+    display: none; /* Oculta el input radio */
+}
+
+.profile-option input[type="radio"]:checked + img {
+    border-color: #9b111e; /* Resalta la imagen seleccionada */
+}
+
+/* Mensaje de éxito */
+.success-message {
+    color: #4caf50; /* Verde éxito */
+    font-size: 14px;
+    margin-top: 10px;
     text-align: center;
 }
 
@@ -428,6 +552,8 @@ form input:focus {
     border-radius: 50%;
     object-fit: cover;
 }
+
+
 
 .comment-text {
     flex: 1;
@@ -459,7 +585,7 @@ form input:focus {
 }
 
 .popup-content button {
-    background: #9b111e;
+    background: #7a0e0e;
     color: #ffffff;
     border: none;
     padding: 10px 20px;
@@ -469,10 +595,11 @@ form input:focus {
 }
 
 .popup-content button:hover {
-    background: #570909;
+    background: #a11d1d;
 }
 
 
+/* Footer */
 footer {
     background-color: #1c1c1c;
     color: #fff;
@@ -480,4 +607,12 @@ footer {
     padding: 15px 20px;
     border-top: 2px solid #7a0e0e;
     font-size: 14px;
+}
+
+/* Footer responsivo */
+@media (max-width: 768px) {
+    footer {
+        font-size: 12px;
+        padding: 10px 15px;
+    }
 }

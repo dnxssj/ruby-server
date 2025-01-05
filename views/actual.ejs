@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> - Ruby Server</title>
     <link rel="icon" type="image/x-icon" href="/images/ruby.ico">
-    <link rel="stylesheet" href="/styles.css?v=3">
+    <link rel="stylesheet" href="/styles.css?v=4">
 </head>
 <body>
     <header>
@@ -27,10 +27,10 @@
                     <li><a href="/register">Registrar</a></li>
                     <li><a href="/login">Iniciar sesión</a></li>
                 <% } else { %> <!-- Si hay un usuario autenticado -->
-                    <li><a href="/dashboard">Mi Dashboard</a></li>
+                    <li><a href="/dashboard">Dashboard</a></li>
                     <li>
                         <form action="/logout" method="POST" style="display: inline;">
-                            <button type="submit" class="logout-btn">Cerrar sesión</button>
+                            <button type="submit" class="logout-btn">Logout</button>
                         </form>
                     </li>
                 <% } %>
@@ -39,7 +39,7 @@
     </nav>
     <div class="container">
         <h1>Top 5 Jugadores Actuales - 2024</h1>
-        <table class="stats-table">
+        <table class="stats-table actual-table">
             <thead>
                 <tr>
                     <th>Posición</th>
