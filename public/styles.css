@@ -43,6 +43,17 @@ body {
     color: #f2f2f2;
 }
 
+/* Estilo general para enlaces */
+a {
+    text-decoration: none; /* Sin subrayado */
+    color: #9b111e; /* Color rubí */
+}
+
+a:hover {
+    color: #570909; /* Cambia solo el color al pasar el mouse */
+}
+
+
 header {
     text-align: center;
     padding: 20px;
@@ -159,6 +170,7 @@ nav {
 .stats-table td {
     padding: 8px 10px; /* Reduce el padding */
     font-size: 16px; /* Ajusta el tamaño de la fuente */
+    text-decoration: none;
 }
 
 .stats-table th {
@@ -196,6 +208,7 @@ nav {
     text-align: left; /* Alineación estándar */
     border: 1px solid #444; /* Bordes visibles */
     white-space: nowrap; /* Evita que el texto se divida */
+    text-decoration: none;
 }
 
 .actual-table th:first-child,
@@ -529,6 +542,42 @@ form input:focus {
     text-align: center;
 }
 
+/* Enlace al perfil */
+.user-link {
+    color: #9b111e;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.user-link:hover {
+    text-decoration: underline;
+    color: #570909;
+}
+
+/* Estilo de la tarjeta del perfil */
+.profile-card {
+    text-align: center;
+    background-color: #1c1c1c;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
+}
+
+.profile-picture-large {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+    border: 3px solid #9b111e;
+}
+
+.profile-card p {
+    color: #fff;
+    margin: 10px 0;
+}
+
 .messages {
     max-width: 800px;
     margin: 0 auto;
@@ -596,6 +645,54 @@ form input:focus {
 
 .popup-content button:hover {
     background: #a11d1d;
+}
+
+/* Opciones de Housekeeping */
+.admin-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.admin-link {
+    margin: 10px 0;
+    text-decoration: none;
+    color: #fff;
+    background-color: #7a0e0e;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.admin-link:hover {
+    background-color: #a11d1d;
+}
+
+/* Tabla en la gestión de usuarios */
+.table-profile-picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.table select {
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.table button {
+    background-color: #9b111e;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.table button:hover {
+    background-color: #570909;
 }
 
 

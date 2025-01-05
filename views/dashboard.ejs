@@ -24,14 +24,13 @@
                 <% if (!user) { %> <!-- Si no hay un usuario autenticado -->
                     <li><a href="/register">Registrar</a></li>
                     <li><a href="/login">Iniciar sesión</a></li>
-                <% } else { %> <!-- Si hay un usuario autenticado -->
-                    <li><a href="/dashboard">Dashboard</a></li>
-                    <li>
-                        <form action="/logout" method="POST" style="display: inline;">
-                            <button type="submit" class="logout-btn">Cerrar sesión</button>
-                        </form>
-                    </li>
-                <% } %>
+                    <% } else { %> <!-- Si hay un usuario autenticado -->
+                            <li><a href="/dashboard">Dashboard</a></li>
+                            <% if (user.role === "admin") { %><li><a href="/housekeeping">Housekeeping</a></li><% } %>
+                            <li><form action="/logout" method="POST" style="display: inline;">
+                                    <button type="submit" class="logout-btn">Cerrar sesión</button>
+                                </form></li>
+                        <% } %>
             </ul>
         </div>
     </nav>

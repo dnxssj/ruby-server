@@ -68,11 +68,13 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // Modelos
+
 const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     profilePicture: { type: String, default: "/images/default-profile.png" },
-    bio: { type: String, default: "" }
+    bio: { type: String, default: "" },
+    role: { type: String, default: "user" } // "admin", "mod" o "user"
 });
 const User = mongoose.model("User", userSchema);
 
@@ -85,12 +87,26 @@ const Comment = mongoose.model("Comment", commentSchema);
 
 
 // Middleware de autenticación
-function requireAuth(req, res, next) {
-    if (!req.session.userId) {
-        return res.redirect("/login");
+async function requireAuth(req, res, next) {
+    try {
+        if (!req.session.userId) {
+            return res.redirect("/login");
+        }
+
+        const user = await User.findById(req.session.userId);
+        if (!user) {
+            return res.redirect("/login");
+        }
+
+        res.locals.user = user; // Hacemos que `user` esté disponible en todas las vistas
+        next();
+    } catch (error) {
+        console.error("Error al obtener el usuario autenticado:", error);
+        res.locals.user = null;
+        next();
     }
-    next();
 }
+
 
 // Rutas de autenticación
 app.post("/register", async (req, res) => {
@@ -168,11 +184,21 @@ app.post("/guestbook", requireAuth, async (req, res) => {
 app.post("/guestbook/edit/:id", requireAuth, async (req, res) => {
     const { id } = req.params;
     const { message } = req.body;
+
     try {
         const comment = await Comment.findById(id);
-        if (comment.author.toString() !== req.session.userId) {
+
+        if (!comment) {
+            return res.status(404).send("Comentario no encontrado.");
+        }
+
+        const user = await User.findById(req.session.userId);
+
+        // Permitir que el autor y el admin puedan editar
+        if (comment.author.toString() !== req.session.userId && user.role !== "admin") {
             return res.status(403).send("No tienes permiso para editar este comentario.");
         }
+
         comment.text = message;
         await comment.save();
         res.redirect("/guestbook");
@@ -198,11 +224,21 @@ assignDefaultAuthor();
 
 app.post("/guestbook/delete/:id", requireAuth, async (req, res) => {
     const { id } = req.params;
+
     try {
         const comment = await Comment.findById(id);
-        if (comment.author.toString() !== req.session.userId) {
+
+        if (!comment) {
+            return res.status(404).send("Comentario no encontrado.");
+        }
+
+        const user = await User.findById(req.session.userId);
+
+        // Permitir que el autor, el admin y el mod puedan borrar
+        if (comment.author.toString() !== req.session.userId && !["admin", "mod"].includes(user.role)) {
             return res.status(403).send("No tienes permiso para eliminar este comentario.");
         }
+
         await comment.remove();
         res.redirect("/guestbook");
     } catch (error) {
@@ -229,6 +265,25 @@ app.post("/dashboard", requireAuth, async (req, res) => {
     }
 });
 
+//Housekeeping
+app.post("/housekeeping/users/:id", requireAuth, async (req, res) => {
+    const { id } = req.params;
+    const { role } = req.body;
+
+    try {
+        const currentUser = await User.findById(req.session.userId);
+
+        if (currentUser.role !== "admin") {
+            return res.status(403).send("No tienes permisos para realizar esta acción.");
+        }
+
+        await User.findByIdAndUpdate(id, { role });
+        res.redirect("/housekeeping/users");
+    } catch (error) {
+        console.error("Error al actualizar el rol del usuario:", error);
+        res.status(500).send("Error al actualizar el rol del usuario.");
+    }
+});
 
 
 
@@ -260,6 +315,60 @@ app.get("/dashboard", requireAuth, async (req, res) => {
         res.status(500).send("Error al cargar el dashboard.");
     }
 });
+app.get("/user/:id", requireAuth, async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        const user = await User.findById(userId);
+
+        if (!user) {
+            return res.status(404).send("Usuario no encontrado");
+        }
+
+        res.render("profile", {
+            title: `Perfil de ${user.username}`,
+            username: user.username,
+            profilePicture: user.profilePicture,
+            bio: user.bio
+        });
+    } catch (error) {
+        console.error("Error al cargar el perfil público:", error);
+        res.status(500).send("Error al cargar el perfil público");
+    }
+});
+app.get("/housekeeping", requireAuth, async (req, res) => {
+    try {
+        const currentUser = await User.findById(req.session.userId);
+
+        if (currentUser.role !== "admin") {
+            return res.status(403).send("No tienes permisos para acceder a esta página.");
+        }
+
+        const users = await User.find({}, "username role profilePicture");
+        res.render('housekeeping', { title: "Housekeeping" });  // Asegúrate de que la vista "housekeeping.ejs" esté presente
+    } catch (error) {
+        console.error("Error al cargar Housekeeping:", error);
+        res.status(500).send("Error al cargar Housekeeping.");
+    }
+});
+
+app.get("/housekeeping/users", requireAuth, async (req, res) => {
+    try {
+        const currentUser = await User.findById(req.session.userId);
+
+        if (currentUser.role !== "admin") {
+            return res.status(403).send("No tienes permisos para acceder a esta página.");
+        }
+
+        const users = await User.find({}, "username role profilePicture"); // Obtén datos clave de los usuarios
+        res.render("users-management", { title: "Gestión de Usuarios", users });
+    } catch (error) {
+        console.error("Error al cargar la gestión de usuarios:", error);
+        res.status(500).send("Error al cargar la gestión de usuarios.");
+    }
+});
+
+
 
 
 // Iniciar servidor

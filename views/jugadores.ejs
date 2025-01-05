@@ -28,11 +28,10 @@
                     <li><a href="/login">Iniciar sesión</a></li>
                 <% } else { %> <!-- Si hay un usuario autenticado -->
                     <li><a href="/dashboard">Dashboard</a></li>
-                    <li>
-                        <form action="/logout" method="POST" style="display: inline;">
+                <% if (user.role === "admin") { %><li><a href="/housekeeping">Housekeeping</a></li><% } %>
+                    <li><form action="/logout" method="POST" style="display: inline;">
                             <button type="submit" class="logout-btn">Cerrar sesión</button>
-                        </form>
-                    </li>
+                        </form></li>
                 <% } %>
             </ul>
         </div>
@@ -54,7 +53,7 @@
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>Gogeta</td>
+                    <td><a href="/user/6779755b94e2f10c706a70e1">Gogeta</a></td>
                     <td>
                         <div class="progress-bar">
                         <span style="width: 99%;">99%</span>
@@ -126,7 +125,7 @@
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td>Giova</td>
+                    <td><a href="/user/6779c2b89c682d20bea55922">Giova</a></td>
                     <td>
                         <div class="progress-bar">
                         <span style="width: 97%;">97%</span>
@@ -174,7 +173,7 @@
                 </tr>
                 <tr>
                     <td>6</td>
-                    <td>Beckhxm</td>
+                    <td><a href="/user/6779641519a2cb8634ff337e">Beckhxm</a></td>
                     <td>
                         <div class="progress-bar">
                         <span style="width: 97%;">97%</span>

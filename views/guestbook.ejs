@@ -27,11 +27,10 @@
                     <li><a href="/login">Iniciar sesión</a></li>
                 <% } else { %> <!-- Si hay un usuario autenticado -->
                     <li><a href="/dashboard">Dashboard</a></li>
-                    <li>
-                        <form action="/logout" method="POST" style="display: inline;">
+                <% if (user.role === "admin") { %><li><a href="/housekeeping">Housekeeping</a></li><% } %>
+                    <li><form action="/logout" method="POST" style="display: inline;">
                             <button type="submit" class="logout-btn">Cerrar sesión</button>
-                        </form>
-                    </li>
+                        </form></li>
                 <% } %>
             </ul>
             
@@ -53,7 +52,23 @@
                     <% if (message.author) { %>
                         <img src="<%= message.author.profilePicture %>" alt="Foto de perfil" class="profile-picture">
                         <div class="comment-text">
-                            <p><strong><%= message.author.username %>:</strong> <%= message.text %></p>
+                            <p><strong><a href="/user/<%= message.author._id %>" class="user-link"><%= message.author.username %></a></strong>:
+                                <%= message.text %>
+                            </p>
+                            
+                            <% if (message.author._id.toString() === user._id.toString() || user.role === "admin") { %>
+                                <form action="/guestbook/edit/<%= message._id %>" method="POST" style="display:inline;">
+                                    <input type="text" name="message" placeholder="Editar comentario" required>
+                                    <button type="submit">Editar</button>
+                                </form>
+                            <% } %>
+                        
+                            <% if (message.author._id.toString() === user._id.toString() || ["admin", "mod"].includes(user.role)) { %>
+                                <form action="/guestbook/delete/<%= message._id %>" method="POST" style="display:inline;">
+                                    <button type="submit">Eliminar</button>
+                                </form>
+                            <% } %>
+                            
                         </div>
                     <% } else { %>
                         <div class="comment-text">

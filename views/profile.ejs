@@ -1,4 +1,4 @@
-<!-- clanes.ejs -->
+<!-- index.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,9 +15,9 @@
     <nav>
         <div class="nav-container">
             <ul class="main-nav">
-                <li><a href="/">Inicio</a></li>
+                <li><a href="/" class="active">Inicio</a></li>
                 <li><a href="/jugadores">Top All Time</a></li>
-                <li><a href="/clanes" class="active">Clanes</a></li>
+                <li><a href="/clanes">Clanes</a></li>
                 <li><a href="/actual">Top Actual</a></li>
                 <li><a href="/guestbook">Guestbook</a></li>
                 <li><a href="/hemeroteca">Hemeroteca</a></li>
@@ -34,31 +34,24 @@
                         </form></li>
                 <% } %>
             </ul>
+            
         </div>
     </nav>
-    <div class="container">
-        <h1>Top 5 Clanes - All Time Ruby</h1>
-        <table class="stats-table">
-            <thead>
-                <tr>
-                    <th>Posición</th>
-                    <th>Nombre del Clan</th>
-                    <th>Actividad</th>
-                    
-                </tr>
-            </thead>
-            <thread>
-                <tbody>
-                    
-                    
-                </tbody>
-            </thread>
-        </table>
-    </div>
+    
+    <main class="centered-container">
+        <h1>Perfil de <%= username %></h1>
+        <div class="profile-card">
+            <img src="<%= profilePicture %>" alt="Foto de perfil" class="profile-picture-large">
+            <p><strong>Nombre de usuario:</strong> <%= username %></p>
+            <p><strong>Descripción:</strong> <%= bio || "Este usuario aún no ha escrito una descripción." %></p>
+        </div>
+    </main>
+    
     <footer>
         <p>&copy; 2024 Ruby Server. Todos los derechos reservados.</p>
     </footer>
 
     <script src="/js/script.js"></script>
+       
 </body>
 </html>

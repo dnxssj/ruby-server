@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="icon" type="image/x-icon" href="/images/ruby.ico">
+    <link rel="stylesheet" href="/styles.css?v=4">
+</head>
+<body>
+    <main class="centered-container">
+        <h1>Gestión de Usuarios</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Foto</th>
+                    <th>Usuario</th>
+                    <th>Rol Actual</th>
+                    <th>Nuevo Rol</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% users.forEach(user => { %>
+                    <tr>
+                        <td><img src="<%= user.profilePicture %>" alt="Foto de perfil" class="table-profile-picture"></td>
+                        <td><%= user.username %></td>
+                        <td><%= user.role %></td>
+                        <td>
+                            <form action="/housekeeping/users/<%= user._id %>" method="POST" style="display: inline;">
+                                <select name="role">
+                                    <option value="user" <%= user.role === "user" ? "selected" : "" %>>Usuario</option>
+                                    <option value="mod" <%= user.role === "mod" ? "selected" : "" %>>Moderador</option>
+                                    <option value="admin" <%= user.role === "admin" ? "selected" : "" %>>Administrador</option>
+                                </select>
+                                <button type="submit">Actualizar</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </main>
+    
+</body>
+</html>
