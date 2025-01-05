@@ -50,7 +50,7 @@
             
             <p>Selecciona una imagen de perfil:</p>
             <div class="profile-options">
-                <% const profileImages = ["/images/profile-options/profile1.png", "/images/profile-options/profile2.png", "/images/profile-options/profile3.png", "/images/profile-options/profile4.png", "/images/profile-options/profile5.png", "/images/profile-options/profile6.png", "/images/profile-options/profile9.png", "/images/profile-options/profile11.png"]; %>
+                <% const profileImages = ["/images/profile-options/profile1.png", "/images/profile-options/profile3.png", "/images/profile-options/profile6.png", "/images/profile-options/profile9.png", "/images/profile-options/profile10.png", "/images/profile-options/profile11.png", "/images/profile-options/profile12.png"]; %>
                 <% profileImages.forEach((img) => { %>
                     <label class="profile-option">
                         <input type="radio" name="profilePicture" value="<%= img %>" <%= user.profilePicture === img ? "checked" : "" %> />
