@@ -74,6 +74,7 @@ const userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     profilePicture: { type: String, default: "/images/default-profile.png" },
+    backgroundImage: { type: String, default: "images/default-background.jpg" },
     bio: { type: String, default: "" },
     role: { type: String, default: "user" } // "admin", "mod" o "user"
 });
@@ -271,21 +272,34 @@ app.post("/guestbook/delete/:id", requireAuth, async (req, res) => {
 app.post("/dashboard", requireAuth, async (req, res) => {
     try {
         const user = await User.findById(req.session.userId);
+
+        // Guardar biografía (si existe)
         if (req.body.bio) {
-            user.bio = req.body.bio;
+            user.bio = req.body.bio; // Ya se recibe en formato HTML desde el editor
         }
+
+        // Guardar foto de perfil (si existe)
         if (req.body.profilePicture) {
             user.profilePicture = req.body.profilePicture;
         }
+
+        // Guardar imagen de fondo (si existe)
+        if (req.body.backgroundImage === 'none') {
+            user.backgroundImage = 'none';  // Ningún fondo
+        } else if (req.body.backgroundImage) {
+            user.backgroundImage = req.body.backgroundImage;  // Fondo seleccionado
+        }
+
         await user.save();
 
-        // Después de guardar, redirigir a la misma página y pasar 'success' a la vista
+        // Renderizar la misma vista con un mensaje de éxito
         res.render("dashboard", { user, success: true });
     } catch (error) {
         console.error("Error al actualizar perfil:", error);
         res.render("dashboard", { user, success: false });
     }
 });
+
 
 
 //Housekeeping
@@ -401,6 +415,25 @@ app.get("/housekeeping/users", requireAuth, async (req, res) => {
         res.status(500).send("Error al cargar la gestión de usuarios.");
     }
 });
+
+app.get("/profile", requireAuth, async (req, res) => {
+    const user = await User.findById(req.session.userId);
+
+    /*
+    let backgroundClass = 'background-none'; // Predeterminado a 'ningún fondo'
+
+    if (user.backgroundImage === "/images/background1.jpeg") {
+        backgroundClass = 'background-background1jpeg';
+    } else if (user.backgroundImage === "/images/background2.jpeg") {
+        backgroundClass = 'background-background2jpeg';
+    }
+
+
+    console.log(backgroundClass);  // Verifica el valor de backgroundClass
+    res.render("profile", { user, backgroundClass }); */
+});
+
+
 
 
 

@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %> - Ruby Server</title>
     <link rel="icon" type="image/x-icon" href="/images/ruby.ico">
-    <link rel="stylesheet" href="/styles.css?v=6">
+    <link rel="stylesheet" href="/styles.css?v=7">
 </head>
 <body>
     <header>
@@ -37,19 +37,25 @@
             
         </div>
     </nav>
+
     
     <main class="centered-container">
-        <h1>Perfil de <%= username %></h1>
-        <div class="profile-card">
-            <img src="<%= profilePicture %>" alt="Foto de perfil" class="profile-picture-large">
-            <p><strong>Nombre de usuario:</strong> <%= username %></p>
-            <p><strong>Descripción:</strong> <%= bio || "Este usuario aún no ha escrito una descripción." %></p>
+        <div class="profile-card-container">
+            <div class="profile-card">
+                <h1>Perfil de <%= username %></h1>
+                <img src="<%= profilePicture %>" alt="Foto de perfil" class="profile-picture-large">
+                <p><strong>Nombre de usuario:</strong> <%= username %></p>
+                <p><strong>Descripción:</strong></p>
+                <!-- Mostrar la biografía con HTML (usando <%- %> para que se interprete el HTML) -->
+                <div class="bio-content">
+                    <%- user.bio || "Este usuario aún no ha escrito una descripción." %>
+                </div>
+            </div>
         </div>
     </main>
     
-    <footer>
-        <p>&copy; 2024 Ruby Server. Todos los derechos reservados.</p>
-    </footer>
+
+
 
     <script src="/js/script.js"></script>
        
