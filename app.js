@@ -355,14 +355,27 @@ app.get("/guestbook", requireAuth, async (req, res) => {
     }
 });
 app.get("/dashboard", requireAuth, async (req, res) => {
-    try {
-        const user = await User.findById(req.session.userId);
-        res.render("dashboard", { user, success: false }); // success inicialmente es false
-    } catch (error) {
-        console.error("Error al cargar el dashboard:", error);
-        res.status(500).send("Error al cargar el dashboard.");
-    }
+    const user = await User.findById(req.session.userId);
+    res.render("dashboard", { user });
 });
+
+app.post("/save-bio", requireAuth, async (req, res) => {
+    const { bio } = req.body; // Obtener la biografía enviada desde el frontend
+
+    try {
+        // Actualizar el campo bio del usuario autenticado
+        await User.findByIdAndUpdate(req.session.userId, { bio });
+        res.status(200).send("Biografía actualizada con éxito");
+    } catch (error) {
+        console.error("Error al guardar la biografía:", error);
+        res.status(500).send("Error al guardar la biografía");
+    }
+
+    console.log("ID del usuario:", req.session.userId); // Asegúrate de que este ID es correcto
+    console.log("Contenido de la biografía:", req.body.bio);
+});
+
+
 app.get("/user/:id", requireAuth, async (req, res) => {
     const userId = req.params.id;
 

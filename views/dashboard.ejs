@@ -48,7 +48,7 @@
         <h1>Bienvenido, <a href="/user/<%= user._id %>"><%= user.username %></a>!</h1>
         <form id="bio-form" action="/dashboard" method="POST">
             <label for="bio">Actualizar biografía:</label>
-            <div id="editor-container"><%= user.bio || '' %></div>
+            <div id="editor-container"><%- user.bio || '' %></div>
             <input type="hidden" name="bio" id="bio-input">
             
             <label for="profilePicture">Selecciona una imagen de perfil:</label>
@@ -79,9 +79,7 @@
             <button type="submit">Guardar cambios</button>
         </form>
 
-        <% if (success) { %>
-            <p class="success-message">Cambios guardados con éxito</p>
-        <% } %>
+        
     </div>
     
     
@@ -121,8 +119,12 @@
         });
 
         // Copiar el contenido del editor al campo oculto antes de enviar el formulario
-        form.addEventListener('submit', function (event) {
-            bioInput.value = quill.root.innerHTML;
+        form.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const quillContent = quill.root.innerHTML; // Obtener contenido de Quill
+        bioInput.value = quillContent;
+
+        form.submit(); // Enviar el formulario
         });
 
     </script>
